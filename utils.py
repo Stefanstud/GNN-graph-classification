@@ -1,6 +1,8 @@
 import networkx as nx
 from pyvis.network import Network
 import torch
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 def visualize_graph_with_pyvis_node_features(dataset, graph_index, name):
@@ -103,36 +105,55 @@ def aggregate_edge_attr(x, edge_index, edge_attr):
     return aggregated_attr
 
 
-# def find_threshold(model, val_loader, edges=False):
-#     model.eval()
-#     true_labels = []
-#     probs_list = []
+def plot_confusion_matrix(cm, title):
+    muted_blues = sns.light_palette("blue", as_cmap=True)
 
-#     for batch in val_loader:
-#         x, edge_index, edge_attr, labels, adj_matrix, adj_matrix_edges = batch
-#         x = x[0]
-#         labels = labels[0].float()
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(
+        cm,
+        annot=True,
+        fmt="g",
+        cmap=muted_blues,
+        cbar=False,
+        xticklabels=["NOT MUTAGENIC", "MUTAGENIC"],
+        yticklabels=["NOT MUTAGENIC", "MUTAGENIC"],
+    )
+    plt.xlabel("Predicted Labels")
+    plt.ylabel("True Labels")
+    plt.title(title)
+    plt.show()
 
-#         if edges:
-#             adj_matrix = adj_matrix_edges[0]
-#         else:
-#             adj_matrix = adj_matrix[0]  # Use the node adjacency matrix
 
-#         with torch.no_grad():
-#             outputs = model(x, adj_matrix)
-#         probs = torch.sigmoid(outputs)
-#         true_labels.extend(labels.cpu().numpy())
-#         probs_list.extend(probs.cpu().numpy())
+def find_threshold(model, val_loader, edges=False):
+    model.eval()
+    true_labels = []
+    probs_list = []
 
-#     thresholds = np.arange(0.1, 1, 0.01)
-#     best_threshold = 0.5
-#     best_f1 = 0.0
+    for batch in val_loader:
+        x, edge_index, edge_attr, labels, adj_matrix, adj_matrix_edges = batch
+        x = x[0]
+        labels = labels[0].float()
 
-#     for threshold in thresholds:
-#         predictions = (probs_list > threshold).astype(float)
-#         f1 = f1_score(true_labels, predictions)
-#         if f1 > best_f1:
-#             best_f1 = f1
-#             best_threshold = threshold
+        if edges:
+            adj_matrix = adj_matrix_edges[0]
+        else:
+            adj_matrix = adj_matrix[0]  # Use the node adjacency matrix
 
-#     return best_threshold
+        with torch.no_grad():
+            outputs = model(x, adj_matrix)
+        probs = torch.sigmoid(outputs)
+        true_labels.extend(labels.cpu().numpy())
+        probs_list.extend(probs.cpu().numpy())
+
+    thresholds = np.arange(0.1, 1, 0.01)
+    best_threshold = 0.5
+    best_f1 = 0.0
+
+    for threshold in thresholds:
+        predictions = (probs_list > threshold).astype(float)
+        f1 = f1_score(true_labels, predictions)
+        if f1 > best_f1:
+            best_f1 = f1
+            best_threshold = threshold
+
+    return best_threshold
