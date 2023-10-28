@@ -124,36 +124,102 @@ def plot_confusion_matrix(cm, title):
     plt.show()
 
 
-def find_threshold(model, val_loader, edges=False):
-    model.eval()
-    true_labels = []
-    probs_list = []
+# def find_threshold(model, val_loader, edges=False):
+#     model.eval()
+#     true_labels = []
+#     probs_list = []
 
-    for batch in val_loader:
-        x, edge_index, edge_attr, labels, adj_matrix, adj_matrix_edges = batch
-        x = x[0]
-        labels = labels[0].float()
+#     for batch in val_loader:
+#         x, edge_index, edge_attr, labels, adj_matrix, adj_matrix_edges = batch
+#         x = x[0]
+#         labels = labels[0].float()
 
-        if edges:
-            adj_matrix = adj_matrix_edges[0]
-        else:
-            adj_matrix = adj_matrix[0]  # Use the node adjacency matrix
+#         if edges:
+#             adj_matrix = adj_matrix_edges[0]
+#         else:def find_threshold(model, val_loader, edges=False):
+#     model.eval()
+#     true_labels = []
+#     probs_list = []
 
-        with torch.no_grad():
-            outputs = model(x, adj_matrix)
-        probs = torch.sigmoid(outputs)
-        true_labels.extend(labels.cpu().numpy())
-        probs_list.extend(probs.cpu().numpy())
+#     for batch in val_loader:
+#         x, edge_index, edge_attr, labels, adj_matrix, adj_matrix_edges = batch
+#         x = x[0]def find_threshold(model, val_loader, edges=False):
+#     model.eval()
+#     true_labels = []
+#     probs_list = []
 
-    thresholds = np.arange(0.1, 1, 0.01)
-    best_threshold = 0.5
-    best_f1 = 0.0
+#     for batch in val_loader:
+#         x, edge_index, edge_attr, labels, adj_matrix, adj_matrix_edges = batch
+#         x = x[0]
+#         labels = labels[0].float()
 
-    for threshold in thresholds:
-        predictions = (probs_list > threshold).astype(float)
-        f1 = f1_score(true_labels, predictions)
-        if f1 > best_f1:
-            best_f1 = f1
-            best_threshold = threshold
+#         if edges:
+#             adj_matrix = adj_matrix_edges[0]
+#         else:
+#             adj_matrix = adj_matrix[0]  # Use the node adjacency matrix
 
-    return best_threshold
+#         with torch.no_grad():
+#             outputs = model(x, adj_matrix)
+#         probs = torch.sigmoid(outputs)
+#         true_labels.extend(labels.cpu().numpy())
+#         probs_list.extend(probs.cpu().numpy())
+
+#     thresholds = np.arange(0.1, 1, 0.01)
+#     best_threshold = 0.5
+#     best_f1 = 0.0
+
+#     for threshold in thresholds:
+#         predictions = (probs_list > threshold).astype(float)
+#         f1 = f1_score(true_labels, predictions)
+#         if f1 > best_f1:
+#             best_f1 = f1
+#             best_threshold = threshold
+
+#     return best_threshold
+
+#         labels = labels[0].float()
+
+#         if edges:
+#             adj_matrix = adj_matrix_edges[0]
+#         else:
+#             adj_matrix = adj_matrix[0]  # Use the node adjacency matrix
+
+#         with torch.no_grad():
+#             outputs = model(x, adj_matrix)
+#         probs = torch.sigmoid(outputs)
+#         true_labels.extend(labels.cpu().numpy())
+#         probs_list.extend(probs.cpu().numpy())
+
+#     thresholds = np.arange(0.1, 1, 0.01)
+#     best_threshold = 0.5
+#     best_f1 = 0.0
+
+#     for threshold in thresholds:
+#         predictions = (probs_list > threshold).astype(float)
+#         f1 = f1_score(true_labels, predictions)
+#         if f1 > best_f1:
+#             best_f1 = f1
+#             best_threshold = threshold
+
+#     return best_threshold
+
+#             adj_matrix = adj_matrix[0]  # Use the node adjacency matrix
+
+#         with torch.no_grad():
+#             outputs = model(x, adj_matrix)
+#         probs = torch.sigmoid(outputs)
+#         true_labels.extend(labels.cpu().numpy())
+#         probs_list.extend(probs.cpu().numpy())
+
+#     thresholds = np.arange(0.1, 1, 0.01)
+#     best_threshold = 0.5
+#     best_f1 = 0.0
+
+#     for threshold in thresholds:
+#         predictions = (probs_list > threshold).astype(float)
+#         f1 = f1_score(true_labels, predictions)
+#         if f1 > best_f1:
+#             best_f1 = f1
+#             best_threshold = threshold
+
+#     return best_threshold

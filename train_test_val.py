@@ -205,7 +205,7 @@ def test_add_edge_to_nodes(
             )
 
             # Augment or replace node features with aggregated attributes
-            # Here's an example where we concatenate them:
+            # example where we concatenate them:
             x_combined = torch.cat([x, aggregated_attributes], dim=1)
             outputs = model(x_combined, adj_matrix)
             outputs = outputs.squeeze(-1)
