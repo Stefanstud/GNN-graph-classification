@@ -6,15 +6,9 @@ October 6, 2023
 
 The MUTAG dataset is a widely used graph classification dataset in the field of cheminformatics. It is designed for predicting the mutagenicity of chemical compounds, making it a crucial resource for toxicology and drug discovery research.
 
-### About the MUTAG Dataset
-
-The MUTAG dataset consists of a collection of chemical compounds, where each compound is represented as a graph. In these graphs:
-
 - Nodes represent atoms within the chemical compound, their features indicate the atom type.
 - Edges represent chemical bonds between atoms, their features indicate the chemical bond type.
 - The dataset is labeled, with each graph labeled as either mutagenic (positive class) or non-mutagenic (negative class).
-
-The goal of this assignment is to develop and evaluate graph convolutional network models for the graph classification task. By predicting whether a chemical compound is mutagenic or non-mutagenic, you’ll gain valuable insights into the applications of graph-based machine learning in cheminformatics.
 
 ## Methods
 
