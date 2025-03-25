@@ -1,8 +1,6 @@
-# CS-502 Homework 2: Graph Neural Networks
+# Graph Neural Networks
 
 October 6, 2023
-
-Important Note: PyTorch Geometric is prohibited for use in this assignment (except for data loading). You are required to exclusively utilize PyTorch.
 
 ## 1 Introduction
 
